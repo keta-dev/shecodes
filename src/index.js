@@ -6,6 +6,15 @@ function search(event) {
   event.preventDefault();
   let searchInputElement = document.querySelector("#search-input");
   let cityElement = document.querySelector("#current-city");
+  let windSpeed = document.querySelector("#wind-speed");
+  let weatherDescription = document.querySelector("#weather-description");
+  let weatherIcon = document.querySelector("#weather-icon");
+  // Clear previous weather icon
+  // weatherIcon.innerHTML = "";
+  // Clear previous weather description
+  // weatherDescription.innerHTML = "";
+  // Clear previous wind speed
+  // windSpeed.innerHTML = "";
   let city = searchInputElement.value.trim();
 
   if (city) {
@@ -24,6 +33,13 @@ function search(event) {
       );
 
       temperatureElement.innerHTML = temperature;
+      // Update Wind Speed
+      windSpeed.innerHTML = `${Math.round(data.wind.speed)}km/hr`;
+      // Update Weather Description
+      weatherDescription.innerHTML = data.condition.description;
+      // Update Weather Icon
+      const iconUrl = data.condition.icon_url;
+      weatherIcon.innerHTML = `<img src="${iconUrl}" alt="${data.condition.description}" />`
     });
   }
 }
