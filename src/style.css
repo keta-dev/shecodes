@@ -114,6 +114,7 @@ footer {
   color: #f65282;
   margin-top: 10px;
   display: flex;
+  gap: 15px;
   justify-content: center;
 }
 

@@ -9,40 +9,44 @@ function search(event) {
   let windSpeed = document.querySelector("#wind-speed");
   let weatherDescription = document.querySelector("#weather-description");
   let weatherIcon = document.querySelector("#weather-icon");
-  // Clear previous weather icon
-  // weatherIcon.innerHTML = "";
-  // Clear previous weather description
-  // weatherDescription.innerHTML = "";
-  // Clear previous wind speed
-  // windSpeed.innerHTML = "";
   let city = searchInputElement.value.trim();
 
   if (city) {
     const apiURL = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
     axios.get(apiURL).then((response) => {
-      const data = response.data;
-      console.log("get data", data);
+      // const data = response.data;
+      console.log("get data", response.data);
 
       // Update City Name
-      cityElement.innerHTML = `${data.city}, ${data.country}`;
+      cityElement.innerHTML = `${response.data.city}, ${response.data.country}`;
 
       // Update City Temperature
-      const temperature = Math.round(data.temperature.current);
+      const temperature = Math.round(response.data.temperature.current);
       const temperatureElement = document.querySelector(
         ".current-temperature-value"
       );
 
       temperatureElement.innerHTML = temperature;
       // Update Wind Speed
-      windSpeed.innerHTML = `${Math.round(data.wind.speed)}km/hr`;
+      windSpeed.innerHTML = `${Math.round(response.data.wind.speed)}km/hr`;
       // Update Weather Description
-      weatherDescription.innerHTML = data.condition.description;
+      weatherDescription.innerHTML = response.data.condition.description;
       // Update Weather Icon
-      const iconUrl = data.condition.icon_url;
-      weatherIcon.innerHTML = `<img src="${iconUrl}" alt="${data.condition.description}" />`
+      const iconUrl = response.data.condition.icon_url;
+      weatherIcon.innerHTML = `<img src="${iconUrl}" alt="${response.data.condition.description}" />`
     });
   }
+
+  getWeatherForecast(city);
 }
+
+function getWeatherForecast(city) {
+  let apiKey = "b2a5adcct04b33178913oc335f405433";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(showWeatherForecast);
+}
+
+function showWeatherForecast(response) {}
 
 function formatDate(date) {
   let minutes = date.getMinutes();
